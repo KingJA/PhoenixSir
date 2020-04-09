@@ -1,4 +1,5 @@
 apply plugin: 'com.android.library'
+apply plugin: 'com.novoda.bintray-release'
 
 android {
     compileSdkVersion COMPILE_SDK_VERSION as int
@@ -22,4 +23,12 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+}
+publish {
+    artifactId = 'phoenixsir'
+    userOrg = 'kingja'
+    groupId = 'com.kingja.phoenixsir'
+    publishVersion = '1.1.0'
+    desc = 'Android library used for update.'
+    website = 'https://github.com/KingJA/PhoenixSir'
 }

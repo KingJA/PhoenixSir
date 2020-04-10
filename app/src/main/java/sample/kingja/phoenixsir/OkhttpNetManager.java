@@ -48,7 +48,7 @@ public class OkhttpNetManager implements INetManager {
     @Override
     public void get(String url, INetCallback callback) {
         Request.Builder builder = new Request.Builder();
-        Request request = builder.url(url).get().build();
+        Request request = builder.url(url).get().addHeader("Accept-Encoding", "identity").build();
         setCallback(request, callback);
 
     }
@@ -67,6 +67,7 @@ public class OkhttpNetManager implements INetManager {
                 .Builder()
                 .post(formBody)
                 .url(url)
+                .addHeader("Accept-Encoding", "identity")
                 .build();
         setCallback(request, callback);
 
@@ -129,6 +130,7 @@ public class OkhttpNetManager implements INetManager {
                 OutputStream os = null;
                 try {
                     final long totalLen = response.body().contentLength();
+                    Log.e(TAG, "contentLength: " + totalLen);
                     is = response.body().byteStream();
                     os = new FileOutputStream(targetFile);
                     byte[] buffer = new byte[8 * 1024];
@@ -142,14 +144,15 @@ public class OkhttpNetManager implements INetManager {
                         sHandler.post(new Runnable() {
                             @Override
                             public void run() {
+                                Log.e(TAG, "finalCurLen: " + finalCurLen + " totalLen: " + totalLen);
                                 callback.onProgress((int) (finalCurLen * 1.0f / totalLen * 100));
                             }
                         });
                     }
                     try {
-                        targetFile.setExecutable(true,false);
-                        targetFile.setReadable(true,false);
-                        targetFile.setWritable(true,false);
+                        targetFile.setExecutable(true, false);
+                        targetFile.setReadable(true, false);
+                        targetFile.setWritable(true, false);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -168,7 +171,7 @@ public class OkhttpNetManager implements INetManager {
                             callback.onFailed(e);
                         }
                     });
-                }finally {
+                } finally {
                     if (is != null) {
                         is.close();
                     }

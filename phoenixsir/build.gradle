@@ -24,13 +24,12 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation("com.squareup.okhttp3:okhttp:3.12.0")
-    implementation 'com.android.support:appcompat-v7:28.0.0'
 }
 publish {
     artifactId = 'phoenixsir'
     userOrg = 'kingja'
     groupId = 'com.kingja.phoenixsir'
-    publishVersion = '1.1.1'
+    publishVersion = '1.1.2'
     desc = 'Android library used for update.'
     website = 'https://github.com/KingJA/PhoenixSir'
 }

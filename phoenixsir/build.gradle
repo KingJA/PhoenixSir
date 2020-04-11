@@ -30,7 +30,7 @@ publish {
     artifactId = 'phoenixsir'
     userOrg = 'kingja'
     groupId = 'com.kingja.phoenixsir'
-    publishVersion = '1.1.0'
+    publishVersion = '1.1.1'
     desc = 'Android library used for update.'
     website = 'https://github.com/KingJA/PhoenixSir'
 }

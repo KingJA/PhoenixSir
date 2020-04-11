@@ -9,9 +9,9 @@ import java.io.File;
  * Email:kingjavip@gmail.com
  */
 public interface INetDownloadCallback {
-    void onSuccess(File apkFile);
+    void onDownloadSuccess(File apkFile);
 
     void onProgress(int progress);
 
-    void onFailed(Throwable throwable);
+    void onDownloadFailed(Throwable throwable);
 }

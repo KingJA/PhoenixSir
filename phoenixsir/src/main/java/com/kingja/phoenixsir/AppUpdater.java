@@ -1,5 +1,6 @@
 package com.kingja.phoenixsir;
 
+import com.kingja.phoenixsir.updater.client.OkhttpNetManager;
 import com.kingja.phoenixsir.updater.net.INetManager;
 
 /**
@@ -11,7 +12,7 @@ import com.kingja.phoenixsir.updater.net.INetManager;
 public class AppUpdater {
 
     private static AppUpdater sInstance = new AppUpdater();
-    private INetManager netManager;
+    private INetManager netManager = new OkhttpNetManager();
 
     public void setNetManager(INetManager netManager) {
         this.netManager = netManager;

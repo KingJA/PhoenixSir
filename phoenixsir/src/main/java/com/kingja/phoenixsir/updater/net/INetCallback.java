@@ -7,6 +7,6 @@ package com.kingja.phoenixsir.updater.net;
  * Email:kingjavip@gmail.com
  */
 public interface INetCallback {
-    void onSuccess(String response);
-    void onFailed(Throwable throwable);
+    void onUpdateSuccess(String response);
+    void onUpdateFailed(Throwable throwable);
 }

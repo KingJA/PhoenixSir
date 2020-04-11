@@ -14,4 +14,6 @@ public interface INetManager {
     void post(String url, Map<String, String > paramsMap, INetCallback callback);
 
     void download(String url, File targetFile, INetDownloadCallback callback);
+
+    void cancel();
 }

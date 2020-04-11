@@ -1,4 +1,4 @@
-package sample.kingja.phoenixsir;
+package com.kingja.phoenixsir.updater.client;
 
 import android.os.Handler;
 import android.os.Looper;
@@ -13,7 +13,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
@@ -23,7 +22,6 @@ import okhttp3.Callback;
 import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
-import okhttp3.RequestBody;
 import okhttp3.Response;
 
 
@@ -48,14 +46,12 @@ public class OkhttpNetManager implements INetManager {
     @Override
     public void get(String url, INetCallback callback) {
         Request.Builder builder = new Request.Builder();
-        Request request = builder.url(url).get().addHeader("Accept-Encoding", "identity").build();
+        Request request = builder.url(url).get().build();
         setCallback(request, callback);
-
     }
 
     @Override
     public void post(String url, Map<String, String> paramsMap, INetCallback callback) {
-        Log.e(TAG, "post: " + url);
         FormBody.Builder formBodyBuilder = new FormBody.Builder();
         Set<String> keySet = paramsMap.keySet();
         for (String key : keySet) {
@@ -67,10 +63,8 @@ public class OkhttpNetManager implements INetManager {
                 .Builder()
                 .post(formBody)
                 .url(url)
-                .addHeader("Accept-Encoding", "identity")
                 .build();
         setCallback(request, callback);
-
     }
 
     private void setCallback(Request request, final INetCallback callback) {
@@ -81,10 +75,9 @@ public class OkhttpNetManager implements INetManager {
                 sHandler.post(new Runnable() {
                     @Override
                     public void run() {
-                        callback.onFailed(e);
+                        callback.onUpdateFailed(e);
                     }
                 });
-
             }
 
             @Override
@@ -94,11 +87,11 @@ public class OkhttpNetManager implements INetManager {
                     sHandler.post(new Runnable() {
                         @Override
                         public void run() {
-                            callback.onSuccess(string);
+                            callback.onUpdateSuccess(string);
                         }
                     });
                 } catch (Throwable e) {
-                    callback.onFailed(e);
+                    callback.onUpdateFailed(e);
                 }
             }
         });
@@ -118,19 +111,16 @@ public class OkhttpNetManager implements INetManager {
                 sHandler.post(new Runnable() {
                     @Override
                     public void run() {
-                        callback.onFailed(e);
+                        callback.onDownloadFailed(e);
                     }
                 });
-
             }
-
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 InputStream is = null;
                 OutputStream os = null;
                 try {
                     final long totalLen = response.body().contentLength();
-                    Log.e(TAG, "contentLength: " + totalLen);
                     is = response.body().byteStream();
                     os = new FileOutputStream(targetFile);
                     byte[] buffer = new byte[8 * 1024];
@@ -156,11 +146,10 @@ public class OkhttpNetManager implements INetManager {
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-
                     sHandler.post(new Runnable() {
                         @Override
                         public void run() {
-                            callback.onSuccess(targetFile);
+                            callback.onDownloadSuccess(targetFile);
                         }
                     });
                 } catch (final Throwable e) {
@@ -168,7 +157,7 @@ public class OkhttpNetManager implements INetManager {
                     sHandler.post(new Runnable() {
                         @Override
                         public void run() {
-                            callback.onFailed(e);
+                            callback.onDownloadFailed(e);
                         }
                     });
                 } finally {
@@ -179,12 +168,12 @@ public class OkhttpNetManager implements INetManager {
                         os.close();
                     }
                 }
-
             }
         });
-
-
     }
 
+    @Override
+    public void cancel() {
 
+    }
 }

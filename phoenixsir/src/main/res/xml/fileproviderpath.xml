@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<paths xmlns:android="http://schemas.android.com/apk/res/android">
+    <!--//file path不建议传递，因为传承provider-->
+    <!--//因此转换成content uri-->
+    <root-path name="root" path="."></root-path>
+    <files-path
+        name="files"
+        path="."></files-path>
+    <!--cachedir/targetFile -> content://cache/targetFile-->
+    <!--content://cache/targetFile -> cache-path/targetFile -> getCacheDir()/targetFile-->
+    <cache-path
+        name="cache"
+        path="."></cache-path>
+    <external-path
+        name="exteral"
+        path="."></external-path>
+    <external-cache-path
+        name="external_cache"
+        path="."></external-cache-path>
+    <external-files-path
+        name="external_file"
+        path="."></external-files-path>
+
+</paths>
